@@ -1,0 +1,153 @@
+/**
+ * Подменяем и расширяем Backbone.View, добавляя в него милые методы для работы с селекторами, выбором элементов и
+ * дата атрибутами
+ * @class Backbone.ElementsView
+ * @extends Backbone.View
+ */
+Backbone.ElementsView = Backbone.View.redefine(function (origin) {
+    return /**@lends Backbone.View*/{
+        /**
+         * @protected
+         * @constructor
+         */
+        initialize: function () {
+            /**
+             * Здесь сохраняются закешированные селекторы, в том числе полученные из
+             * {@link Backbone.ElementsView._classes}
+             * @type {Object.<string, string>}
+             * @private
+             */
+            this._cachedSelectors = this._selectors();
+
+            /**
+             * Кеш для {@link Backbone.ElementsView._elem}
+             * @type {Object.<string, jQuery>}
+             * @private
+             */
+            this._cachedElements = {};
+
+            /**
+             * Дата атрибуты {@link Backbone.View.$el} в camelCase
+             * @type {Object.<string, string>}
+             * @protected
+             */
+            this._data = this.$el.data();
+
+            origin.initialize.apply(this, arguments);
+        },
+
+        /**
+         * CSS классы используемые во вьюшке складываются сюда. Ключи - имена элементов, значение - названия классов.
+         * Свойство можно переопределять в наследуемых классах
+         * @type {Object.<string, string>}
+         * @protected
+         * @example <code class="javascript">
+         *     _classes: {
+         *         table: 'js-table'
+         *     }
+         * </code>
+         */
+        _classes: {},
+
+        /**
+         * Селекторы используемые во вьюшке описываются здесь. Метод надо переопределять в наследуемых классах
+         * @returns {Object.<string, string>} Ключи - названия элементов, значения - селекторы
+         * @protected
+         * @example <code class="javascript">
+         *      _selectors: function(){
+         *          return {
+         *              map: '.google-map:first'
+         *          };
+         *      }
+         * </code>
+         */
+        _selectors: function () {
+            return {};
+        },
+
+        /**
+         * Возвращает селектор элемента по его имени, селекторы берутся из {@link Backbone.ElementsView._selectors} или
+         * {@link Backbone.ElementsView._classes}
+         * @param {String} name название элемента
+         * @returns {String} селектор
+         * @throws {Error} если название елемента нигде не найдено
+         * @protected
+         * @example <code class="javascript">
+         *      events: function(){
+         *          var events = {};
+         *          events['click ' + this._selector('map')] = this._clickOnMap;
+         *          events['click ' + this._selector('table')] = this._clickOnTable;
+         *          return events;
+         *      }
+         * </code>
+         */
+        _selector: function (name) {
+            var selector = this._cachedSelectors[name];
+            if (selector != null) {
+                return selector;
+            }
+
+            var cl = this._classes[name];
+            if (cl == null) {
+                throw new Error('Selector for ' + name + ' does not found');
+            }
+
+            selector = '.' + cl;
+            this._cachedSelectors[name] = selector;
+
+            return selector;
+        },
+
+        /**
+         * Возвращает jQuery коллекцию по имени из {@link Backbone.ElementsView._selectors} или
+         * {@link Backbone.ElementsView._classes}. Кэширует результаты, для сброса кеша см.
+         * {@link Backbone.ElementsView._dropElemCache}
+         * @param {String} name название элемента
+         * @returns {jQuery}
+         * @protected
+         * @example <code class="javascript">
+         *     this._elem('table').hide();
+         * </code>
+         */
+        _elem: function (name) {
+            var $elem = this._cachedElements[name];
+            if ($elem != null) {
+                return $elem;
+            }
+
+            $elem = this.$(this._selector(name));
+            this._cachedElements[name] = $elem;
+            return $elem;
+        },
+
+        /**
+         * Трет кеш для {@link Backbone.ElementsView._elem}
+         * @param {String} [name] имя элемента для которого надо убрать кеш, если не задано - сотрется весь кеш
+         * @protected
+         */
+        _dropElemCache: function (name) {
+            if (name != null) {
+                delete this._cachedElements[name];
+            }
+            else {
+                this._cachedElements = {};
+            }
+        },
+
+        /**
+         * Возвращает дата атрибуты для элемента по его имени и имени атрибута
+         * @param {String} name имя элемента
+         * @param {String} [attr] имя атрибута, если не задано, то вернется объект со всеми дата атрибутами для элемента
+         * @returns {*|Object}
+         * @protected
+         */
+        _getElemData: function (name, attr) {
+            var data = this._elem(name).data();
+            if (attr == null) {
+                return data;
+            }
+
+            return data[attr];
+        }
+    }
+});
