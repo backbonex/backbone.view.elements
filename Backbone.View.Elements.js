@@ -11,6 +11,8 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * @constructor
          */
         initialize: function () {
+            this._cachedClasses = this._classes();
+
             /**
              * Здесь сохраняются закешированные селекторы, в том числе полученные из
              * {@link Backbone.ElementsView._classes}
@@ -39,15 +41,35 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         /**
          * CSS классы используемые во вьюшке складываются сюда. Ключи - имена элементов, значение - названия классов.
          * Свойство можно переопределять в наследуемых классах
-         * @type {Object.<string, string>}
+         * @returns {Object.<string, string>}
          * @protected
          * @example <code class="javascript">
-         *     _classes: {
-         *         table: 'js-table'
+         *     _classes: function(){
+         *         return {
+         *             table: 'js-table'
+         *         };
          *     }
          * </code>
          */
-        _classes: {},
+        _classes: function(){
+            return {};
+        },
+
+        /**
+         * Возвращает css класс элемента по его имени, классы берутся из {@link Backbone.ElementsView._classes}
+         * @param {String} name название элемента
+         * @returns {String} css класс
+         * @throws {Error} если название елемента нигде не найдено
+         * @protected
+         */
+        _class: function (name) {
+            var cl = this._cachedClasses[name];
+            if (cl == null) {
+                throw new Error('Selector for ' + name + ' does not found');
+            }
+
+            return cl;
+        },
 
         /**
          * Селекторы используемые во вьюшке описываются здесь. Метод надо переопределять в наследуемых классах
@@ -70,7 +92,6 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * {@link Backbone.ElementsView._classes}
          * @param {String} name название элемента
          * @returns {String} селектор
-         * @throws {Error} если название елемента нигде не найдено
          * @protected
          * @example <code class="javascript">
          *      events: function(){
@@ -87,12 +108,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
                 return selector;
             }
 
-            var cl = this._classes[name];
-            if (cl == null) {
-                throw new Error('Selector for ' + name + ' does not found');
-            }
-
-            selector = '.' + cl;
+            selector = '.' + this._class(name);
             this._cachedSelectors[name] = selector;
 
             return selector;
