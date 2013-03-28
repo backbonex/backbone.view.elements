@@ -39,6 +39,16 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         },
 
         /**
+         * Сбрасывает кэши клаасов, селекторов и элементов
+         * @private
+         */
+        _resetCaches: function () {
+            this._cachedClasses = this._classes();
+            this._cachedSelectors = this._selectors();
+            this._cachedElements = {};
+        },
+
+        /**
          * CSS классы используемые во вьюшке складываются сюда. Ключи - имена элементов, значение - названия классов.
          * Свойство можно переопределять в наследуемых классах
          * @returns {Object.<string, string>}
@@ -164,6 +174,17 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
             }
 
             return data[attr];
+        },
+
+        /**
+         * Совместимость с Backbone.Decorate
+         */
+        onDecorate: function () {
+            this._resetCaches();
+
+            if (typeof origin.onDecorate == "function") {
+                origin.onDecorate.apply(this, arguments);
+            }
         }
     }
 });
