@@ -125,6 +125,15 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         },
 
         /**
+         * @param {String} name
+         * @returns {Boolean}
+         * @protected
+         */
+        _hasSelector: function (name) {
+            return !!(this._cachedClasses[name] || this._cachedSelectors[name]);
+        },
+
+        /**
          * Возвращает jQuery коллекцию по имени из {@link Backbone.ElementsView._selectors} или
          * {@link Backbone.ElementsView._classes}. Кэширует результаты, для сброса кеша см.
          * {@link Backbone.ElementsView._dropElemCache}
