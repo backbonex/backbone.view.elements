@@ -38,6 +38,10 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
             origin.initialize.apply(this, arguments);
         },
 
+        events: function () {
+            return {};
+        },
+
         /**
          * Сбрасывает кэши клаасов, селекторов и элементов
          * @private
