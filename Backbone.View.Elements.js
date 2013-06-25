@@ -6,11 +6,36 @@
  */
 Backbone.ElementsView = Backbone.View.redefine(function (origin) {
     return /**@lends Backbone.View*/{
+
+        events: function () {
+            return {};
+        },
+
+        setElement: function () {
+            origin.setElement.apply(this, arguments);
+
+            /**
+             * Дата атрибуты {@link Backbone.View.$el} в camelCase
+             * @type {Object.<string, string>}
+             * @protected
+             */
+            this._data = this.$el.data() || {};
+            this._resetCaches();
+            return this;
+        },
+
         /**
-         * @protected
-         * @constructor
+         * Сбрасывает кэши клаасов, селекторов и элементов
+         * @private
          */
-        initialize: function () {
+        _resetCaches: function () {
+
+            /**
+             * Здесь сохраняются закешированные классы, полученные из
+             * {@link Backbone.ElementsView._classes}
+             * @type {Object.<string, string>}
+             * @private
+             */
             this._cachedClasses = this._classes();
 
             /**
@@ -27,29 +52,6 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
              * @private
              */
             this._cachedElements = {};
-
-            /**
-             * Дата атрибуты {@link Backbone.View.$el} в camelCase
-             * @type {Object.<string, string>}
-             * @protected
-             */
-            this._data = this.$el.data();
-
-            origin.initialize.apply(this, arguments);
-        },
-
-        events: function () {
-            return {};
-        },
-
-        /**
-         * Сбрасывает кэши клаасов, селекторов и элементов
-         * @private
-         */
-        _resetCaches: function () {
-            this._cachedClasses = this._classes();
-            this._cachedSelectors = this._selectors();
-            this._cachedElements = {};
         },
 
         /**
@@ -65,7 +67,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          *     }
          * </code>
          */
-        _classes: function(){
+        _classes: function () {
             return {};
         },
 
