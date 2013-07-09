@@ -7,10 +7,6 @@
 Backbone.ElementsView = Backbone.View.redefine(function (origin) {
     return /**@lends Backbone.View*/{
 
-        events: function () {
-            return {};
-        },
-
         setElement: function () {
             origin.setElement.apply(this, arguments);
 
