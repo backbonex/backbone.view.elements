@@ -169,6 +169,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
             else {
                 this._cachedElements = {};
             }
+            return this;
         },
 
         /**
