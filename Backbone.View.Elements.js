@@ -190,11 +190,11 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         /**
          * Совместимость с Backbone.Decorate
          */
-        onDecorate: function () {
+        beforeDecorate: function () {
             this._resetCaches();
 
-            if (typeof origin.onDecorate == "function") {
-                origin.onDecorate.apply(this, arguments);
+            if (typeof origin.beforeDecorate == "function") {
+                origin.beforeDecorate.apply(this, arguments);
             }
         }
     }
