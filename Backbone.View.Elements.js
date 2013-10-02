@@ -152,9 +152,30 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
                 return $elem;
             }
 
-            $elem = this.$(this._selector(name));
+            $elem = this._findElem(name);
             this._cachedElements[name] = $elem;
             return $elem;
+        },
+
+        /**
+         * Finds element without using cache
+         * @param {string} name
+         * @returns {jQuery}
+         * @protected
+         */
+        _findElem: function (name) {
+            return this.$(this._selector(name));
+        },
+
+        /**
+         * Replaces element with passed content
+         * @param {string} name
+         * @param {HTMLElement|jQuery|string} content
+         * @protected
+         */
+        _replaceElem: function (name, content) {
+            this._elem(name).replaceWith(content);
+            this._dropElemCache(name);
         },
 
         /**
