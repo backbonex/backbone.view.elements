@@ -115,13 +115,18 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * </code>
          */
         _selector: function (name) {
-            var selector = this._cachedSelectors[name];
-            if (selector != null) {
-                return selector;
+            var selector = this._cachedSelectors[name],
+                args = Array.prototype.slice.call(arguments, 1);
+
+            if (selector == null) {
+                selector = '.' + this._class(name);
+                this._cachedSelectors[name] = selector;
             }
 
-            selector = '.' + this._class(name);
-            this._cachedSelectors[name] = selector;
+            if (args.length) {
+                args.unshift(selector)
+                selector = _.sprintf.apply(_, args);
+            }
 
             return selector;
         },
@@ -152,8 +157,10 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
                 return $elem;
             }
 
-            $elem = this._findElem(name);
-            this._cachedElements[name] = $elem;
+            $elem = this._findElem.apply(this, arguments);
+            if (arguments.length == 1) {
+                this._cachedElements[name] = $elem;
+            }
             return $elem;
         },
 
@@ -164,7 +171,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * @protected
          */
         _findElem: function (name) {
-            return this.$(this._selector(name));
+            return this.$(this._selector.apply(this, arguments));
         },
 
         /**
