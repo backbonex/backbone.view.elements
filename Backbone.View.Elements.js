@@ -115,19 +115,23 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * </code>
          */
         _selector: function (name) {
-            var selector = this._cachedSelectors[name],
-                args = Array.prototype.slice.call(arguments, 1);
+            var args = null,
+                cacheKey = this._getCacheKey.apply(this, arguments),
+                selector = this._cachedSelectors[cacheKey];
 
             if (selector == null) {
-                selector = '.' + this._class(name);
-                this._cachedSelectors[name] = selector;
-            }
+                if (!this._cachedSelectors[name] && this._cachedClasses[name]) {
+                    selector = '.' + this._class(name);
+                    this._cachedSelectors[name] = selector;
+                }
 
-            if (args.length) {
-                args.unshift(selector)
-                selector = _.sprintf.apply(_, args);
+                args = Array.prototype.slice.call(arguments, 1);
+                if (args.length) {
+                    args.unshift(this._cachedSelectors[name]);
+                    selector = _.sprintf.apply(_, args);
+                    this._cachedSelectors[cacheKey] = selector;
+                }
             }
-
             return selector;
         },
 
@@ -152,16 +156,26 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * </code>
          */
         _elem: function (name) {
-            var $elem = this._cachedElements[name];
+            var cacheKey = this._getCacheKey.apply(this, arguments),
+                $elem = this._cachedElements[cacheKey];
+
             if ($elem != null) {
                 return $elem;
             }
 
             $elem = this._findElem.apply(this, arguments);
-            if (arguments.length == 1) {
-                this._cachedElements[name] = $elem;
-            }
+            this._cachedElements[cacheKey] = $elem;
+
             return $elem;
+        },
+
+        /**
+         * @param name
+         * @returns {string}
+         * @private
+         */
+        _getCacheKey: function (name) {
+            return Array.prototype.join.call(arguments, '|');
         },
 
         /**
@@ -192,7 +206,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          */
         _dropElemCache: function (name) {
             if (name != null) {
-                delete this._cachedElements[name];
+                delete this._cachedElements[this._getCacheKey.apply(this, arguments)];
             }
             else {
                 this._cachedElements = {};
