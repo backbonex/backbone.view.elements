@@ -195,8 +195,43 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * @protected
          */
         _replaceElem: function (name, content) {
+            var $el = this._elem(name),
+                focusOnElem = $el[0] == document.activeElement || $el.has(document.activeElement).length;
+
             this._elem(name).replaceWith(content);
             this._dropElemCache(name);
+
+            if (focusOnElem) {
+                this._fixFocus(this._elem(name));
+            }
+        },
+
+        /**
+         * Sets element innerHTML
+         * @param {string} name
+         * @param {HTMLElement|jQuery|string} content
+         * @protected
+         */
+        _setElemContent: function (name, content) {
+            var $el = this._elem(name),
+                focusInsideElem = $el.has(document.activeElement).length;
+
+            $el.html(content);
+            if (focusInsideElem) {
+                this._fixFocus($el);
+            }
+        },
+
+        /**
+         * Emulate focus on passed element (focuses closest focusable element)
+         * @param {jQuery} $el
+         * @private
+         */
+        _fixFocus: function ($el) {
+            var $focused = $el.closest('[tabindex]');
+            if ($focused.length) {
+                $focused[0].focus();
+            }
         },
 
         /**
