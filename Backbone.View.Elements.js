@@ -228,7 +228,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * @private
          */
         _fixFocus: function ($el) {
-            var $focused = $el.closest('[tabindex]');
+            var $focused = $el.closest('[tabindex],a,button:not(:disabled)');
             if ($focused.length) {
                 $focused[0].focus();
             }
