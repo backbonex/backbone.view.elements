@@ -120,7 +120,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
                 selector = this._cachedSelectors[cacheKey];
 
             if (selector == null) {
-                if (!this._cachedSelectors[name] && this._cachedClasses[name]) {
+                if (!this._cachedSelectors[name]) {
                     selector = '.' + this._class(name);
                     this._cachedSelectors[name] = selector;
                 }
