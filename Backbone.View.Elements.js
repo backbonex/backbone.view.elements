@@ -6,8 +6,12 @@
  */
 Backbone.ElementsView = Backbone.View.redefine(function (origin) {
     return /**@lends Backbone.View*/{
-        initialize: function () {
-            origin.initialize.apply(this, arguments);
+
+        /**
+         * @protected
+         */
+        _initProperties: function () {
+            origin._initProperties.apply(this, arguments);
 
             /**
              * @type {jQuery}
