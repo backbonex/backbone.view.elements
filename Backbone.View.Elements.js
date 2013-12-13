@@ -105,6 +105,12 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
                 throw new Error('Selector for ' + name + ' does not found');
             }
 
+            if (arguments.length > 1){
+                var args = Array.prototype.slice.call(arguments, 1);
+                args.unshift(cl);
+                cl = _.sprintf.apply(_, args);
+            }
+
             return cl;
         },
 
