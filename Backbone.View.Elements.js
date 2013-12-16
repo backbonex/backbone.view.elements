@@ -95,11 +95,12 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         /**
          * Возвращает css класс элемента по его имени, классы берутся из {@link Backbone.ElementsView._classes}
          * @param {String} name название элемента
+         * @param {...String} [varArg]
          * @returns {String} css класс
          * @throws {Error} если название елемента нигде не найдено
          * @protected
          */
-        _class: function (name) {
+        _class: function (name, varArg) {
             var cl = this._cachedClasses[name];
             if (cl == null) {
                 throw new Error('Selector for ' + name + ' does not found');
@@ -134,6 +135,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * Возвращает селектор элемента по его имени, селекторы берутся из {@link Backbone.ElementsView._selectors} или
          * {@link Backbone.ElementsView._classes}
          * @param {String} name название элемента
+         * @param {...String} [varArg]
          * @returns {String} селектор
          * @protected
          * @example <code class="javascript">
@@ -145,7 +147,7 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          *      }
          * </code>
          */
-        _selector: function (name) {
+        _selector: function (name, varArg) {
             var args = null,
                 cacheKey = this._getCacheKey.apply(this, arguments),
                 selector = this._cachedSelectors[cacheKey];
@@ -180,13 +182,14 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
          * {@link Backbone.ElementsView._classes}. Кэширует результаты, для сброса кеша см.
          * {@link Backbone.ElementsView._dropElemCache}
          * @param {String} name название элемента
+         * @param {...String} [varArg]
          * @returns {jQuery}
          * @protected
          * @example <code class="javascript">
          *     this._elem('table').hide();
          * </code>
          */
-        _elem: function (name) {
+        _elem: function (name, varArg) {
             var cacheKey = this._getCacheKey.apply(this, arguments),
                 $elem = this._cachedElements[cacheKey];
 
@@ -201,21 +204,23 @@ Backbone.ElementsView = Backbone.View.redefine(function (origin) {
         },
 
         /**
-         * @param name
+         * @param {String} name
+         * @param {...String} [varArg]
          * @returns {string}
          * @private
          */
-        _getCacheKey: function (name) {
+        _getCacheKey: function (name, varArg) {
             return Array.prototype.join.call(arguments, '|');
         },
 
         /**
          * Finds element without using cache
          * @param {string} name
+         * @param {...String} [varArg]
          * @returns {jQuery}
          * @protected
          */
-        _findElem: function (name) {
+        _findElem: function (name, varArg) {
             return this.$(this._selector.apply(this, arguments));
         },
 
