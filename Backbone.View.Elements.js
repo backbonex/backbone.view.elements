@@ -1,9 +1,12 @@
 define([
     'Backbone',
-    'vendors/Backbone/Backbone.Redefine',
     'jquery',
-    'underscore'
-], function (Backbone, BackboneRedefine, $, _) {
+    'underscore.string',
+
+    './Backbone.Redefine',
+    './Backbone.Properties',
+    './Backbone.Decorate'
+], function (Backbone, $, _) {
     "use strict";
 
     /**
