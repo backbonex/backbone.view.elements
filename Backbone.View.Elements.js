@@ -96,6 +96,7 @@ define([
                 return {};
             },
 
+            /*jshint unused: false*/
             /**
              * Возвращает css класс элемента по его имени, классы берутся из {@link Backbone.ElementsView._classes}
              * @param {String} name название элемента
@@ -106,7 +107,7 @@ define([
              */
             _class: function (name, varArg) {
                 var cl = this._cachedClasses[name];
-                if (cl == null) {
+                if (!cl) {
                     throw new Error('Selector for ' + name + ' does not found');
                 }
 
@@ -156,7 +157,7 @@ define([
                     cacheKey = this._getCacheKey.apply(this, arguments),
                     selector = this._cachedSelectors[cacheKey];
 
-                if (selector == null) {
+                if (!selector) {
                     if (!this._cachedSelectors[name]) {
                         selector = '.' + this._class(name);
                         this._cachedSelectors[name] = selector;
@@ -197,7 +198,7 @@ define([
                 var cacheKey = this._getCacheKey.apply(this, arguments),
                     $elem = this._cachedElements[cacheKey];
 
-                if ($elem != null) {
+                if ($elem) {
                     return $elem;
                 }
 
@@ -227,6 +228,7 @@ define([
             _findElem: function (name, varArg) {
                 return this.$(this._selector.apply(this, arguments));
             },
+            /*jshint unused: true*/
 
             /**
              * Replaces element with passed content
@@ -280,7 +282,7 @@ define([
              * @protected
              */
             _dropElemCache: function (name) {
-                if (name != null) {
+                if (name) {
                     delete this._cachedElements[this._getCacheKey.apply(this, arguments)];
                 }
                 else {
@@ -298,7 +300,7 @@ define([
              */
             _getElemData: function (name, attr) {
                 var data = this._elem(name).data();
-                if (attr == null) {
+                if (!attr) {
                     return data;
                 }
 
