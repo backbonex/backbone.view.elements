@@ -6,31 +6,23 @@
  */
 Backbone.ElementsView = Backbone.View.redefine(function (origin) {
     return /**@lends Backbone.View*/{
-
         /**
+         * @type {jQuery}
          * @protected
          */
-        _initProperties: function () {
-            origin._initProperties.apply(this, arguments);
+        _$window: $(window),
 
-            /**
-             * @type {jQuery}
-             * @protected
-             */
-            this._$window = $(window);
+        /**
+         * @type {jQuery}
+         * @protected
+         */
+        _$document: $(document),
 
-            /**
-             * @type {jQuery}
-             * @protected
-             */
-            this._$document = $(document);
-
-            /**
-             * @type {jQuery}
-             * @protected
-             */
-            this._$body = $(document.body);
-        },
+        /**
+         * @type {jQuery}
+         * @protected
+         */
+        _$body: $(document.body),
 
         setElement: function () {
             origin.setElement.apply(this, arguments);
