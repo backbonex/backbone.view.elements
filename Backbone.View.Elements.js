@@ -19,29 +19,22 @@ define([
         return /**@lends Backbone.View*/{
 
             /**
+             * @type {jQuery}
              * @protected
              */
-            _initProperties: function () {
-                origin._initProperties.apply(this, arguments);
+            _$window: $(window),
 
-                /**
-                 * @type {jQuery}
-                 * @protected
-                 */
-                this._$window = $(window);
+            /**
+             * @type {jQuery}
+             * @protected
+             */
+            _$document: $(document),
 
-                /**
-                 * @type {jQuery}
-                 * @protected
-                 */
-                this._$document = $(document);
-
-                /**
-                 * @type {jQuery}
-                 * @protected
-                 */
-                this._$body = $(document.body);
-            },
+            /**
+             * @type {jQuery}
+             * @protected
+             */
+            _$body: $(document.body),
 
             setElement: function () {
                 origin.setElement.apply(this, arguments);
@@ -151,11 +144,11 @@ define([
              * @protected
              * @example <code class="javascript">
              *      events: function(){
-         *          var events = {};
-         *          events['click ' + this._selector('map')] = this._clickOnMap;
-         *          events['click ' + this._selector('table')] = this._clickOnTable;
-         *          return events;
-         *      }
+             *          var events = {};
+             *          events['click ' + this._selector('map')] = this._clickOnMap;
+             *          events['click ' + this._selector('table')] = this._clickOnTable;
+             *          return events;
+             *      }
              * </code>
              */
             _selector: function (name, varArg) {
@@ -322,6 +315,6 @@ define([
                     origin.beforeDecorate.apply(this, arguments);
                 }
             }
-        }
+        };
     });
 });
