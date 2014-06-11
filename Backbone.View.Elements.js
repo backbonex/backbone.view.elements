@@ -121,6 +121,78 @@ define([
             },
 
             /**
+             * @param {String} method
+             * @param {String|Array.<String>} cls
+             * @param {String|Array.<String>|jQuery} [elem=this.$el]
+             * @param {*} [additionalParam]
+             * @returns {Boolean|jQuery}
+             * @private
+             */
+            _runClassMethod: function (method, cls, elem, additionalParam) {
+                var $el = elem ?
+                        Array.isArray(elem) ? this._elem.apply(this, elem) :
+                            typeof elem === 'string' ? this._elem(elem) :
+                                elem
+                        : this.$el,
+                    buildedClass = Array.isArray(cls) ? this._class.apply(this, cls) : this._class(cls),
+                    args = [buildedClass];
+                if (typeof additionalParam !== 'undefined') {
+                    args.push(additionalParam);
+                }
+                return $el[method].apply($el, args);
+            },
+
+            /**
+             * @param {String|Array.<String>} cls
+             * @param {String|Array.<String>|jQuery} [elem=this.$el]
+             * @returns {Boolean}
+             * @protected
+             */
+            _hasClass: function (cls, elem) {
+                return this._runClassMethod('hasClass', cls, elem);
+            },
+
+            /**
+             * @param {String|Array.<String>} cls
+             * @param {String|Array.<String>|jQuery} [elem=this.$el]
+             * @returns {Backbone.View}
+             * @protected
+             */
+            _addClass: function (cls, elem) {
+                this._runClassMethod('addClass', cls, elem);
+                return this;
+            },
+
+            /**
+             * @param {String|Array.<String>} cls
+             * @param {String|Array.<String>|jQuery} [elem=this.$el]
+             * @returns {Backbone.View}
+             * @protected
+             */
+            _removeClass: function (cls, elem) {
+                this._runClassMethod('removeClass', cls, elem);
+                return this;
+            },
+
+            /**
+             * @param {String|Array.<String>} cls
+             * @param {String|Array.<String>|jQuery} [elem=this.$el]
+             * @param {Boolean} [toggle]
+             * @returns {Backbone.View}
+             * @protected
+             */
+            _toggleClass: function (cls, elem, toggle) {
+                if (arguments.length === 2) {
+                    if (typeof elem === 'boolean') {
+                        toggle = elem;
+                        elem = undefined;
+                    }
+                }
+                this._runClassMethod('toggleClass', cls, elem, toggle);
+                return this;
+            },
+
+            /**
              * Селекторы используемые во вьюшке описываются здесь. Метод надо переопределять в наследуемых классах
              * @returns {Object.<string, string>} Ключи - названия элементов, значения - селекторы
              * @protected
@@ -228,6 +300,7 @@ define([
             _findElem: function (name, varArg) {
                 return this.$(this._selector.apply(this, arguments));
             },
+
             /*jshint unused: true*/
 
             /**
