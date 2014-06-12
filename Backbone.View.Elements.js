@@ -186,7 +186,7 @@ define([
                         elem = undefined;
                     }
                 }
-                return this._runClassMethod('toggleClass', cls, elem, toggle);
+                return this._runClassMethod('toggleClass', cls, elem, [toggle]);
             },
 
             /**
