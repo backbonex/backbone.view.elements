@@ -96,7 +96,6 @@ define([
                 return {};
             },
 
-            /*jshint unused: false*/
             /**
              * Возвращает css класс элемента по его имени, классы берутся из {@link Backbone.ElementsView._classes}
              * @param {String} name название элемента
@@ -124,22 +123,23 @@ define([
              * @param {String} method
              * @param {String|Array.<String>} cls
              * @param {String|Array.<String>|jQuery} [elem=this.$el]
-             * @param {*} [additionalParam]
+             * @param {Array} [methodArgs]
              * @returns {Boolean|jQuery}
              * @private
              */
-            _runClassMethod: function (method, cls, elem, additionalParam) {
+            _runClassMethod: function (method, cls, elem, methodArgs) {
                 var $el = elem ?
                         Array.isArray(elem) ? this._elem.apply(this, elem) :
                             typeof elem === 'string' ? this._elem(elem) :
                                 elem
                         : this.$el,
-                    buildedClass = Array.isArray(cls) ? this._class.apply(this, cls) : this._class(cls),
-                    args = [buildedClass];
-                if (typeof additionalParam !== 'undefined') {
-                    args.push(additionalParam);
+                    buildedClass = Array.isArray(cls) ? this._class.apply(this, cls) : this._class(cls);
+                if (typeof methodArgs !== 'undefined') {
+                    methodArgs.unshift(buildedClass);
+                } else {
+                    methodArgs = [buildedClass];
                 }
-                return $el[method].apply($el, args);
+                return $el[method].apply($el, methodArgs);
             },
 
             /**
@@ -155,30 +155,28 @@ define([
             /**
              * @param {String|Array.<String>} cls
              * @param {String|Array.<String>|jQuery} [elem=this.$el]
-             * @returns {Backbone.View}
+             * @returns {jQuery}
              * @protected
              */
             _addClass: function (cls, elem) {
-                this._runClassMethod('addClass', cls, elem);
-                return this;
+                return this._runClassMethod('addClass', cls, elem);
             },
 
             /**
              * @param {String|Array.<String>} cls
              * @param {String|Array.<String>|jQuery} [elem=this.$el]
-             * @returns {Backbone.View}
+             * @returns {jQuery}
              * @protected
              */
             _removeClass: function (cls, elem) {
-                this._runClassMethod('removeClass', cls, elem);
-                return this;
+                return this._runClassMethod('removeClass', cls, elem);
             },
 
             /**
              * @param {String|Array.<String>} cls
              * @param {String|Array.<String>|jQuery} [elem=this.$el]
              * @param {Boolean} [toggle]
-             * @returns {Backbone.View}
+             * @returns {jQuery}
              * @protected
              */
             _toggleClass: function (cls, elem, toggle) {
@@ -188,8 +186,7 @@ define([
                         elem = undefined;
                     }
                 }
-                this._runClassMethod('toggleClass', cls, elem, toggle);
-                return this;
+                return this._runClassMethod('toggleClass', cls, elem, toggle);
             },
 
             /**
@@ -198,10 +195,10 @@ define([
              * @protected
              * @example <code class="javascript">
              *      _selectors: function(){
-         *          return {
-         *              map: '.google-map:first'
-         *          };
-         *      }
+             *          return {
+             *              map: '.google-map:first'
+             *          };
+             *      }
              * </code>
              */
             _selectors: function () {
@@ -301,8 +298,6 @@ define([
                 return this.$(this._selector.apply(this, arguments));
             },
 
-            /*jshint unused: true*/
-
             /**
              * Replaces element with passed content
              * @param {string} name
@@ -378,17 +373,6 @@ define([
                 }
 
                 return data[attr];
-            },
-
-            /**
-             * Совместимость с Backbone.Decorate
-             */
-            beforeDecorate: function () {
-                this._resetCaches();
-
-                if (typeof origin.beforeDecorate == "function") {
-                    origin.beforeDecorate.apply(this, arguments);
-                }
             }
         };
     });
