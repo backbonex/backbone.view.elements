@@ -36,24 +36,11 @@ define([
              */
             _$body: $(document.body),
 
-            setElement: function () {
-                origin.setElement.apply(this, arguments);
-
-                /**
-                 * Дата атрибуты {@link Backbone.View.$el} в camelCase
-                 * @type {Object.<string, string>}
-                 * @protected
-                 */
-                this._data = this.$el.data() || {};
-                this._resetCaches();
-                return this;
-            },
-
             /**
-             * Сбрасывает кэши клаасов, селекторов и элементов
              * @private
              */
-            _resetCaches: function () {
+            _initProperties: function () {
+                this._super();
 
                 /**
                  * Здесь сохраняются закешированные классы, полученные из
@@ -76,6 +63,29 @@ define([
                  * @type {Object.<string, jQuery>}
                  * @private
                  */
+                this._cachedElements = {};
+            },
+
+            setElement: function () {
+                origin.setElement.apply(this, arguments);
+
+                /**
+                 * Дата атрибуты {@link Backbone.View.$el} в camelCase
+                 * @type {Object.<string, string>}
+                 * @protected
+                 */
+                this._data = this.$el.data() || {};
+                this._resetCaches();
+                return this;
+            },
+
+            /**
+             * Сбрасывает кэши клаасов, селекторов и элементов
+             * @private
+             */
+            _resetCaches: function () {
+                this._cachedClasses = this._classes();
+                this._cachedSelectors = this._selectors();
                 this._cachedElements = {};
             },
 
