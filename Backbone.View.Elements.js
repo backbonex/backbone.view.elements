@@ -40,7 +40,7 @@ define([
              * @private
              */
             _initProperties: function () {
-                this._super();
+                origin._initProperties.apply(this, arguments);
 
                 /**
                  * Здесь сохраняются закешированные классы, полученные из
