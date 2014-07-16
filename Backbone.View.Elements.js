@@ -86,7 +86,7 @@ define([
             _resetCaches: function () {
                 this._cachedClasses = this._classes();
                 this._cachedSelectors = this._selectors();
-                this._cachedElements = {};
+                this._dropElemCache();
             },
 
             /**
