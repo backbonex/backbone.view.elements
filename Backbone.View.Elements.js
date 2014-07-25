@@ -236,8 +236,8 @@ define([
                     cacheKey = this._getCacheKey.apply(this, arguments),
                     selector = this._cachedSelectors[cacheKey];
 
-                if (typeof selector === 'undefined') {
-                    if (typeof this._cachedSelectors[name] === 'undefined') {
+                if (!selector) {
+                    if (!this._cachedSelectors[name]) {
                         selector = '.' + this._class(name);
                         this._cachedSelectors[name] = selector;
                     }
