@@ -1,0 +1,25 @@
+{
+  "name": "backbone.view.elements",
+  "version": "0.0.0",
+  "homepage": "https://github.com/backbonex/backbone.view.elements",
+  "authors": [
+    "jifeon <balakirev.andrey@gmail.com>"
+  ],
+  "description": "Backbone.View extension for convenient work with elements, css classes and selectors",
+  "main": "lib/Backbone.View.Elements",
+  "keywords": [
+    "backbone",
+    "elements",
+    "css",
+    "classes",
+    "selectors"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
