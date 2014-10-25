@@ -21,5 +21,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.1",
+    "zeptojs": "~1.1.4"
+  }
 }
