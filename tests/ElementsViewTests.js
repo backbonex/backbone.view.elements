@@ -1,3 +1,5 @@
+/*global describe, it, before, after, beforeEach, afterEach*/
+
 define([
     'underscore',
     'mocha',
@@ -6,10 +8,16 @@ define([
 ], function (_, mocha, expect, ElementsView) {
     "use strict";
 
+    function bind (originFn) {
+        return function (callback) {
+            return originFn(callback.bind(this));
+        }
+    }
+
     /**
-    * @class ElementsViewTests
-    * @extends ElementsView
-    */
+     * @class ElementsViewTests
+     * @extends ElementsView
+     */
     return ElementsView.extend(/**@lends ElementsViewTests*/{
         /**
          * @type {string}
@@ -26,7 +34,9 @@ define([
             return _.defaults({
                 elemFromClass: 'js-test__class-elem',
                 simpleClass: 'simple-class',
-                complexClass: 'complex-class_%s_%s'
+                complexClass: 'complex-class_%s_%s',
+                insideAlternativeRoot: 'inside-alternative-root',
+                replacement: 'replacement'
             }, ElementsView.prototype._classes.call(this));
         },
 
@@ -40,7 +50,14 @@ define([
                 testContent: '.js-test-elements_backbone_view',
                 elemFromSelector: '.js-test__selector-elem',
                 simpleSelector: '.simple-selector',
-                complexSelector: '.complex-selector_%s_%s'
+                complexSelector: '.complex-selector_%s_%s',
+                alternativeRoot: '.alternative-root',
+                child: '.child',
+                replacedElement: '.replaced-element',
+                replacedChild: '.replaced-element__child',
+                cacheTest: '.cache-test',
+                cacheTest2: '.cache-test-2',
+                content: '.content'
             }, ElementsView.prototype._selectors.call(this));
         },
 
@@ -66,32 +83,50 @@ define([
 
         /**
          * @param {string} description
-         * @param {function} callback
+         * @param {function} [callback]
          * @returns {*}
          */
         describe: function (description, callback) {
-            return mocha.describe(description, callback.bind(this));
+            return describe(description, callback ? callback.bind(this) : function () {
+                it('Pending suite');
+            });
         },
-
 
         /**
-         * @see {@link expect}
-         * @returns {mocha.Matchers}
+         * @param {string} description
+         * @param {function} [callback]
+         * @returns {*}
          */
-        it: function (descrition, callback) {
-            return mocha.it(descrition, callback.bind(this));
+        it: function (description, callback) {
+            return it(description, callback && callback.bind(this));
         },
+
+        before: bind(before),
+        beforeEach: bind(beforeEach),
+        after: bind(after),
+        afterEach: bind(afterEach),
 
         /**
          * @protected
          */
         _describe: function () {
+            this.describe('data property', this._checkDataProperty);
             this.describe('class method', this._checkClassMethod);
             this.describe('selector method', this._checkSelectorMethod);
             this.describe('elem method', this._checkElemMethod);
             this.describe('hasClass method', this._checkHasClassMethod);
             this.describe('addClass and removeClass methods', this._checkAddAndRemoveClassMethods);
             this.describe('toggleClass method', this._checkToggleClassMethod);
+            this.describe('setElement method', this._checkSetElementMethod);
+            this.describe('replaceElem method', this._checkReplaceElemMethod);
+            this.describe('findElem method', this._checkFindElemMethod);
+            this.describe('setElemContent method', this._checkSetElemContentMethod);
+            this.describe('dropElemCache method', this._checkDropElemCacheMethod);
+            this.describe('getElemData method', this._checkGetElemDataMethod);
+        },
+
+        _checkDataProperty: function () {
+            this.it('should contain data attributes of element');
         },
 
         /**
@@ -127,6 +162,7 @@ define([
             this.it('should work for complex selector', function () {
                 expect(this._selector('complexSelector', 1, 2)).to.be('.complex-selector_1_2');
             });
+            this.it('should work for complex selector described in classes');
             this.it('should throw an Exception if there is no selector', function () {
                 expect(function () {
                     this._selector('not-exist');
@@ -283,6 +319,108 @@ define([
                 expect(function () {
                     this._toggleClass('not-exist');
                 }).to.throwError();
+            });
+        },
+
+        _checkSetElementMethod: function () {
+            this.it('should reset caches', function () {
+                this.setElement(this._elem('alternativeRoot'));
+                expect(this._data['value']).to.be(2);
+                expect(this._elem('child').length).to.be(1);
+                expect(this._hasClass('insideAlternativeRoot', 'child')).to.be.ok();
+                this.setElement(this._$body);
+                expect(this._data['value']).to.be(1);
+                expect(this._elem('child').length).to.be(2);
+            });
+        },
+
+        _checkReplaceElemMethod: function () {
+            var originalHTML,
+                replacement = '<div class="' + this._class('replacement') + '" tabindex="0"></div>';
+
+            this.beforeEach(function () {
+                originalHTML = this._elem('replacedElement')[0].outerHTML;
+                console.log(originalHTML);
+            });
+
+            this.afterEach(function () {
+                this._replaceElem('replacement', originalHTML);
+            });
+
+            this.after(function () {
+                expect(this._elem('replacedChild')).to.have.length(1);
+                this._$body.focus();
+            });
+
+            this.it('should reset caches', function () {
+                this._replaceElem('replacedElement', replacement);
+                expect(this._elem('replacedChild')).to.have.length(0);
+            });
+
+            this.it('should fix focus', function () {
+                this._elem('replacedElement').focus();
+                this._replaceElem('replacedElement', replacement);
+                expect(document.activeElement).to.be(this._elem('replacement')[0]);
+            });
+        },
+
+        _checkFindElemMethod: function () {
+            this.it('should find elements without using cache', function () {
+                var $cached = this._elem('cacheTest');
+                expect($cached).to.have.length(1);
+                $cached.clone().insertAfter($cached);
+                expect(this._elem('cacheTest')).to.have.length(1);
+                expect(this._findElem('cacheTest')).to.have.length(2);
+                $cached.remove();
+                this._dropElemCache();
+            });
+        },
+
+        _checkSetElemContentMethod: function () {
+            this.after(function () {
+                this._$body.focus();
+            });
+
+            this.it('should set element content', function () {
+                this._setElemContent('content', '<span>content</span>');
+                expect(this._elem('content').find('span')).to.have.length(1);
+                this._setElemContent('content', '');
+            });
+
+            this.it('should fix focus', function () {
+                this._setElemContent('content', '<span tabindex="0">content</span>');
+                this._elem('content').find('span').focus();
+                this._setElemContent('content', '');
+                expect(document.activeElement).to.be(this._elem('content')[0]);
+            });
+        },
+
+        _checkDropElemCacheMethod: function () {
+            this.it('should drop element cache', function () {
+                var $cached = this._elem('cacheTest');
+                expect($cached).to.have.length(1);
+                $cached.clone().insertAfter($cached);
+                var $cached2 = this._elem('cacheTest2');
+                expect($cached2).to.have.length(1);
+                $cached2.clone().insertAfter($cached2);
+                expect(this._elem('cacheTest')).to.have.length(1);
+                expect(this._elem('cacheTest2')).to.have.length(1);
+                this._dropElemCache('cacheTest');
+                expect(this._elem('cacheTest')).to.have.length(2);
+                expect(this._elem('cacheTest2')).to.have.length(1);
+                this._dropElemCache();
+                expect(this._elem('cacheTest')).to.have.length(2);
+                expect(this._elem('cacheTest2')).to.have.length(2);
+                $cached.remove();
+                $cached2.remove();
+                this._dropElemCache();
+            });
+        },
+
+        _checkGetElemDataMethod: function () {
+            this.it('should return data attributes of the element', function () {
+                expect(this._getElemData('alternativeRoot')).to.eql({value: 2});
+                expect(this._getElemData('alternativeRoot', 'value')).to.be(2);
             });
         }
     });

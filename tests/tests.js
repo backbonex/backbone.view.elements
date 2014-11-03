@@ -15,8 +15,6 @@ requirejs.config({
             exports: 'mocha',
             init: function () {
                 this.mocha.setup('bdd');
-                this.mocha.it = this.it;
-                this.mocha.describe = this.describe;
                 return this.mocha;
             }
         },
