@@ -36,7 +36,6 @@ define([
                 simpleClass: 'simple-class',
                 complexClass: 'complex-class_%s_%s',
                 insideAlternativeRoot: 'inside-alternative-root',
-                replacement: 'replacement'
             }, ElementsView.prototype._classes.call(this));
         },
 
@@ -53,11 +52,8 @@ define([
                 complexSelector: '.complex-selector_%s_%s',
                 alternativeRoot: '.alternative-root',
                 child: '.child',
-                replacedElement: '.replaced-element',
-                replacedChild: '.replaced-element__child',
                 cacheTest: '.cache-test',
-                cacheTest2: '.cache-test-2',
-                content: '.content'
+                cacheTest2: '.cache-test-2'
             }, ElementsView.prototype._selectors.call(this));
         },
 
@@ -334,36 +330,6 @@ define([
             });
         },
 
-        _checkReplaceElemMethod: function () {
-            var originalHTML,
-                replacement = '<div class="' + this._class('replacement') + '" tabindex="0"></div>';
-
-            this.beforeEach(function () {
-                originalHTML = this._elem('replacedElement')[0].outerHTML;
-                console.log(originalHTML);
-            });
-
-            this.afterEach(function () {
-                this._replaceElem('replacement', originalHTML);
-            });
-
-            this.after(function () {
-                expect(this._elem('replacedChild')).to.have.length(1);
-                this._$body.focus();
-            });
-
-            this.it('should reset caches', function () {
-                this._replaceElem('replacedElement', replacement);
-                expect(this._elem('replacedChild')).to.have.length(0);
-            });
-
-            this.it('should fix focus', function () {
-                this._elem('replacedElement').focus();
-                this._replaceElem('replacedElement', replacement);
-                expect(document.activeElement).to.be(this._elem('replacement')[0]);
-            });
-        },
-
         _checkFindElemMethod: function () {
             this.it('should find elements without using cache', function () {
                 var $cached = this._elem('cacheTest');
@@ -373,25 +339,6 @@ define([
                 expect(this._findElem('cacheTest')).to.have.length(2);
                 $cached.remove();
                 this._dropElemCache();
-            });
-        },
-
-        _checkSetElemContentMethod: function () {
-            this.after(function () {
-                this._$body.focus();
-            });
-
-            this.it('should set element content', function () {
-                this._setElemContent('content', '<span>content</span>');
-                expect(this._elem('content').find('span')).to.have.length(1);
-                this._setElemContent('content', '');
-            });
-
-            this.it('should fix focus', function () {
-                this._setElemContent('content', '<span tabindex="0">content</span>');
-                this._elem('content').find('span').focus();
-                this._setElemContent('content', '');
-                expect(document.activeElement).to.be(this._elem('content')[0]);
             });
         },
 
