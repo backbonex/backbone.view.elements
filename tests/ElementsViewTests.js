@@ -114,9 +114,7 @@ define([
             this.describe('addClass and removeClass methods', this._checkAddAndRemoveClassMethods);
             this.describe('toggleClass method', this._checkToggleClassMethod);
             this.describe('setElement method', this._checkSetElementMethod);
-            this.describe('replaceElem method', this._checkReplaceElemMethod);
             this.describe('findElem method', this._checkFindElemMethod);
-            this.describe('setElemContent method', this._checkSetElemContentMethod);
             this.describe('dropElemCache method', this._checkDropElemCacheMethod);
             this.describe('getElemData method', this._checkGetElemDataMethod);
         },
