@@ -120,7 +120,12 @@ define([
         },
 
         _checkDataProperty: function () {
-            this.it('should contain data attributes of element');
+            this.it('should contain data attributes of element', function () {
+                expect(this._data).to.be.an('object');
+                expect(this._data['value']).to.be(1);
+                expect(this._data['str']).to.be('str');
+                expect(this._data['obj']).to.be.an('object');
+            });
         },
 
         /**
