@@ -161,7 +161,6 @@ define([
             this.it('should work for complex selector', function () {
                 expect(this._selector('complexSelector', 1, 2)).to.be('.complex-selector_1_2');
             });
-            this.it('should work for complex selector described in classes');
             this.it('should throw an Exception if there is no selector', function () {
                 expect(function () {
                     this._selector('not-exist');
