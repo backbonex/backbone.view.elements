@@ -1,0 +1,6 @@
+add universal loader
+authors
+tests coverage
+bower.json
+_hasSelector
+why are we not using memo?
