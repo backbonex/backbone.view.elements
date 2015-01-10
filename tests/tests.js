@@ -5,7 +5,7 @@ requirejs.config({
         jquery: '../bower_components/jquery/dist/jquery',
         mocha: '../bower_components/mocha/mocha',
         lib: '../lib',
-        expect: '../bower_components/expect.js/index'
+        expect: '../bower_components/expect/index'
     },
     shim: {
         jquery: {
