@@ -35,7 +35,7 @@ define([
                 elemFromClass: 'js-test__class-elem',
                 simpleClass: 'simple-class',
                 complexClass: 'complex-class_%s_%s',
-                insideAlternativeRoot: 'inside-alternative-root',
+                insideAlternativeRoot: 'inside-alternative-root'
             }, ElementsView.prototype._classes.call(this));
         },
 
@@ -74,7 +74,12 @@ define([
             });
 
             mocha.checkLeaks();
-            mocha.run();
+
+            if (window.mochaPhantomJS) {
+                mochaPhantomJS.run();
+            } else {
+                mocha.run();
+            }
         },
 
         /**

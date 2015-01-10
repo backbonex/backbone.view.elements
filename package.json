@@ -1,0 +1,32 @@
+{
+  "name": "backbone.view.elements",
+  "version": "1.0.0",
+  "description": "Backbone.View extension for convenient work with elements, css classes and selectors",
+  "main": "lib/Backbone.View.Elements.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs -p node_modules/phantomjs/bin/phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false tests/tests.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backbonex/backbone.view.elements.git"
+  },
+  "keywords": [
+    "backbone",
+    "elements",
+    "css",
+    "classes",
+    "selectors"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/backbonex/backbone.view.elements/issues"
+  },
+  "devDependencies": {
+    "mocha-phantomjs": "~3.5.2",
+    "phantomjs": "~1.9.13"
+  }
+}
