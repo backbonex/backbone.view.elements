@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs -p node_modules/phantomjs/bin/phantomjs -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false tests/tests.html"
+    "test": "./node_modules/.bin/mocha-browser tests/tests.html",
+    "cov": "./node_modules/.bin/jscoverage lib && ./node_modules/.bin/mocha-browser tests/tests.html -R html-cov > /tmp/report.html && gnome-open /tmp/report.html",
+    "coveralls": "./node_modules/.bin/jscoverage lib && mocha-browser tests/tests.html -R lcov | ./node_modules/.bin/coveralls && rm -rf lib-cov"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,8 @@
     "url": "https://github.com/backbonex/backbone.view.elements/issues"
   },
   "devDependencies": {
-    "mocha-phantomjs": "~3.5.2",
-    "phantomjs": "~1.9.13"
+    "jscoverage": "~0.5.9",
+    "coveralls": "~2.11.2",
+    "mocha-browser": "~0.2.0"
   }
 }

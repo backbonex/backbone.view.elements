@@ -4,7 +4,7 @@ requirejs.config({
         underscore: '../bower_components/underscore/underscore',
         jquery: '../bower_components/jquery/dist/jquery',
         mocha: '../bower_components/mocha/mocha',
-        lib: '../lib',
+        lib: window.mochaPhantomJS ? '../lib-cov' : '../lib',
         expect: '../bower_components/expect/index'
     },
     shim: {
