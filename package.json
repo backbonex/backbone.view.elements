@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha-browser tests/tests.html",
+    "test": "./node_modules/.bin/jscoverage lib && ./node_modules/.bin/mocha-browser tests/tests.html",
     "cov": "./node_modules/.bin/jscoverage lib && ./node_modules/.bin/mocha-browser tests/tests.html -R html-cov > /tmp/report.html && gnome-open /tmp/report.html",
     "coveralls": "./node_modules/.bin/jscoverage lib && mocha-browser tests/tests.html -R lcov | ./node_modules/.bin/coveralls && rm -rf lib-cov"
   },
