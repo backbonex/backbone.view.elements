@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "homepage": "https://github.com/backbonex/backbone.view.elements",
   "authors": [
-    "jifeon <balakirev.andrey@gmail.com>"
+    "jifeon <balakirev.andrey@gmail.com>",
+    "apsavin <box.for.postman@gmail.com>",
+    "km256 <keyman256@gmail.com>",
+    "heymexa <heymexa@gmail.com>"
   ],
   "description": "Backbone.View extension for convenient work with elements, css classes and selectors",
   "main": "lib/Backbone.View.Elements",
