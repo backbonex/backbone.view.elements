@@ -8,7 +8,7 @@ Backbone.View extension for convenient work with elements, css classes and selec
 
 Protected API
 -------------
-You can use following properties and methods inside child classes
+You can use following properties and methods inside your child classes
 ### Properties
 #### _$window 
 - *type* `{jQuery}`
@@ -35,6 +35,8 @@ Data attributes of `this.$el`
 - *returns* `{Object.<string>}`
 
 Place here CSS classes used in a View. Method should return an object, which keys are readable class names and values are CSS classes. You can extend this method in child classes.
+
+Consider your declaration is:
 ```js
 _classes: function(){
     return {
@@ -48,7 +50,7 @@ this._class('activeItem');
 ```
 or selector for the class
 ```js
-this._selector('activeItem'); // returns dot + class
+this._selector('activeItem'); // returns dot + the class
 ```
 or even elements with the class
 ```js
@@ -64,9 +66,8 @@ different elements use `_findElem` instead
 - *returns* `{String}` CSS class
 - *throws* `{Error}` if the name does not match any key in `_classes` or value for the key is empty
 
-Returns CSS class by its name. Classes are described in `_classes`
-@example Suppose we have classes described like this: 
-
+Returns CSS class by its name. Classes are described in `_classes`.
+Suppose we have classes described like this: 
 ```js
 _classes: function(){
     return {
@@ -82,7 +83,6 @@ this._class('activeItem');                  // item_active_yes
 this._class('itemOfType', 'apple');         // item_type_apple
 this._class('namedItem', {name: 'note'});   // item-note
 ```
-more often it needed for `_addClass` and `_removeClass` methods.
 
 #### _hasClass
 - *arguments*
@@ -90,17 +90,17 @@ more often it needed for `_addClass` and `_removeClass` methods.
     - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, checks the root element if not specified
 - *returns* `{Boolean}`
 
-Checks the element has CSS class described in `_classes` 
-@example Checking `Backbone.View.$el` has a class specified in `_classes`
+Checks the element has CSS class described in `_classes`. 
+Example: checking `Backbone.View.$el` has a class specified in `_classes` as `active`
 ```js
 this._hasClass('active')
 ```
-@example Checking some child element has a class specified in `_classes`. For retrieving
+Checking some child element has a class specified in `_classes`. For retrieving
 element the `_elem` method is used
 ```js
 this._hasClass('active', 'someItem')
 ```
-@example Usage with placeholders
+Usage with placeholders
 ```js
 this._hasClass(['namedItem', 'itsName'], 'elemName')
 ```
@@ -109,20 +109,19 @@ this._hasClass(['namedItem', 'itsName'], 'elemName')
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
     - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, adds to the root element if not specified
-- *returns* `{$}`
+- *returns* `{jQuery}`
 
-Add CSS class described in `_classes` to element
-
-@example Adding a class specified in `_classes} to the {@link Backbone.View.$el`
+Add CSS class described in `_classes` to element.
+For example if we want to add the class specified in `_classes` as `active` to `Backbone.View.$el`:
 ```js
 this._addClass('active')
 ```
-@example Adding a class specified in `_classes` to some child element. For retrieving
+Adding a class specified in `_classes` to some child element. For retrieving
 element the `_elem` method is used
 ```js
 this._addClass('active', 'someItem')
 ```
-@example Usage with placeholders
+Usage with placeholders
 ```js
 this._addClass(['namedItem', 'itsName'], 'elemName')
 ```
@@ -131,20 +130,17 @@ this._addClass(['namedItem', 'itsName'], 'elemName')
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
     - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, removes from the root element if not specified
-- *returns* `{$}`
+- *returns* `{jQuery}`
 
-Remove CSS class described in `_classes` to element
-
-@example Removing a class specified in `_classes} from the {@link Backbone.View.$el`
+Remove CSS class described in `_classes` from an element. To remove class from from the `Backbone.View.$el`
 ```js
 this._removeClass('active')
 ```
-@example Removing a class specified in `_classes` from some child element. For retrieving
-element the `_elem` method is used
+Removing a class specified in `_classes` from some child element. For retrieving an element the `_elem` method is used
 ```js
 this._removeClass('active', 'someItem')
 ```
-@example Usage with placeholders
+Usage with placeholders
 ```js
 this._removeClass(['namedItem', 'itsName'], 'elemName')
 ```
@@ -153,21 +149,18 @@ this._removeClass(['namedItem', 'itsName'], 'elemName')
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
     - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, toggles to the root element if not specified
-    - `{Boolean}`  **`[toggle]`**
-- *returns* `{$}`
+    - `{Boolean}`  **`[toggle]`** flag to add or remove the class
+- *returns* `{jQuery}`
 
-Toggle CSS class described in `_classes` on element
-
-@example Toggling a class specified in `_classes} on the {@link Backbone.View.$el`
+Toggles CSS class described in `_classes` on element. Example: toggling a class specified in `_classes` as `active` on `Backbone.View.$el`
 ```js
-this._toggleClass('active', true)
+this._toggleClass('active', true);
 ```
-@example Toggling a class specified in `_classes` on some child element. For retrieving
-element the `_elem` method is used
+Toggling a class specified in `_classes` on some child element. For retrieving element the `_elem` method is used
 ```js
 this._toggleClass('active', 'someItem', false)
 ```
-@example Usage with placeholders
+Usage with placeholders
 ```js
 this._toggleClass(['namedItem', 'itsName'], 'elemName', true)
 ```
@@ -178,7 +171,7 @@ this._toggleClass(['namedItem', 'itsName'], 'elemName', true)
 Place here selectors used in a View. Method should return an object, which keys are readable selector names
 and values are CSS selector. You can extend this method in child classes.
 
-@example Routine use
+Routine use:
 ```js
 _selectors: function(){
     return {
@@ -194,8 +187,7 @@ or elements selected by it
 ```js
 this._elem('firstLevelItem')
 ```
-@example Using with placeholders
-You can use placeholders for selector generation
+Using with placeholders
 ```js
 _selectors: function(){
     return {
@@ -219,7 +211,7 @@ this._elem('namedItem', {name: 'note'}); // finds child elements by .item-note s
 
 Returns CSS selector by its name. Selectors are described in `_selectors`
 
-@example Suppose we have selectors described like this:
+Example: suppose we have selectors described like this:
 ```js
 _selectors: function(){
     return {
@@ -235,8 +227,7 @@ this._selector('firstLevelItem')             // .list>.item
 this._selector('itemById', 'apple')          // .item[data-id=apple]
 this._selector('namedItem', {name: 'note'})  // .item-note
 ```
-more often it needed for `_elem` and `_findElem` methods
-@example Using at {@link Backbone.View#events}
+Using at `Backbone.View#events`
 ```js
 events: function(){
     var events = {};
@@ -256,29 +247,29 @@ Returns true if selector with the name is descried in `_classes` or `_selectors`
 - *arguments:*
     - `{String}`  **`name`** The name of searching element
     - `{...String}`  **`[placeholders]`** values for placeholders, see examples
-- *returns* `{$}`
+- *returns* `{jQuery}`
 
-Returns jQuery or Zepto {@link Backbone#$} collection of elements by the name described in
-`_selectors} or {@link ElementsView#_classes`. Caches results so you do not need to
+Returns jQuery or Zepto collection of elements by the name described in
+`_selectors` or `_classes`. Caches th results so you don't need to
 remember them to properties. Use `_dropElemCache` to clean caches
 
-@example ```js
+```js
 var Page = ElementsView.extend({
     _classes: function () {
         return {
             popup: 'my-class-for-popups'
         };
     },
-         *
+
     _selectors: function () {
         return {
             popupByName: '.popup[data-name=%s]'
         };
     },
-         *
+    
     initialize: function () {
         ElementsView.prototype.initialize.apply(this, arguments);
-         *
+
         this._elem('popupByName', 'greeting').show();
         var $allPopups = this._elem('popup');
     }
@@ -293,29 +284,29 @@ var Page = ElementsView.extend({
 
 Finds element without using cache
 
-@example ```js
+```js
 var SomeElement = ElementsView.extend({
     _classes: function () {
         return {
             activeDropdown: 'dropdown_active'
         };
     },
-         *
+
     _selectors: function () {
         return {
             dropdownByN: '.dropdown:eq(%s)'
         };
     },
-         *
+
     initialize: function () {
         ElementsView.prototype.initialize.apply(this, arguments);
-         *
+
         this._addClass('activeDropdown', ['dropdownByN', 2]);
         var $activeDropdown = this._elem('activeDropdown'); // caches activeDropdown
         this._removeClass('activeDropdown', ['dropdownByN', 2]);
         this._addClass('activeDropdown', ['dropdownByN', 3]);
-        // how to get active dropdown? _elem returns dropdown with number 2
-        $activeDropdown = this._findElem('activeDropdown'); // ignores caches
+        // how to get active dropdown? _elem returns dropdown with number 2 because of the cache
+        $activeDropdown = this._findElem('activeDropdown'); // ignores the caches
     }
 });
 ```
@@ -325,7 +316,7 @@ var SomeElement = ElementsView.extend({
     - `{String}`  **`[name]`** The name of the element whose cache will be cleaned up. If it's absent the whole cache
 will be dropped
 
-Clears the cache for {@link ElementsView._elem}
+Clears the cache for `ElementsView._elem`
 
 #### _getElemData
 - *arguments:*
