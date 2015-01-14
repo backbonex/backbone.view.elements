@@ -87,7 +87,7 @@ this._class('namedItem', {name: 'note'});   // item-note
 #### _hasClass
 - *arguments*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
-    - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, checks the root element if not specified
+    - `{String|Array.<String>|jQuery}`  **`[elem=this.$el]`** element name, checks the root element if not specified
 - *returns* `{Boolean}`
 
 Checks the element has CSS class described in `_classes`. 
@@ -108,7 +108,7 @@ this._hasClass(['namedItem', 'itsName'], 'elemName')
 #### _addClass
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
-    - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, adds to the root element if not specified
+    - `{String|Array.<String>|jQuery}`  **`[elem=this.$el]`** element name, adds to the root element if not specified
 - *returns* `{jQuery}`
 
 Add CSS class described in `_classes` to element.
@@ -129,7 +129,7 @@ this._addClass(['namedItem', 'itsName'], 'elemName')
 #### _removeClass
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
-    - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, removes from the root element if not specified
+    - `{String|Array.<String>|jQuery}`  **`[elem=this.$el]`** element name, removes from the root element if not specified
 - *returns* `{jQuery}`
 
 Remove CSS class described in `_classes` from an element. To remove class from from the `Backbone.View.$el`
@@ -148,7 +148,7 @@ this._removeClass(['namedItem', 'itsName'], 'elemName')
 #### _toggleClass
 - *arguments:*
     - `{String|Array.<String>}`  **`cls`** class name, if you want to use placeholders pass the array (see examples)
-    - `{String|Array.<String>|$}`  **`[elem=this.$el]`** element name, toggles to the root element if not specified
+    - `{String|Array.<String>|jQuery}`  **`[elem=this.$el]`** element name, toggles to the root element if not specified
     - `{Boolean}`  **`[toggle]`** flag to add or remove the class
 - *returns* `{jQuery}`
 
@@ -280,7 +280,7 @@ var Page = ElementsView.extend({
 - *arguments:*
     - `{string}`  **`name`**
     - `{...String}`  **`[placeholders]`**
-- *returns* `{$}`
+- *returns* `{jQuery}`
 
 Finds element without using cache
 
