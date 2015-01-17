@@ -35,6 +35,8 @@ define([
                 elemFromClass: 'js-test__class-elem',
                 simpleClass: 'simple-class',
                 complexClass: 'complex-class_%s_%s',
+                classWithPlaceholder: 'class-with-name-%(name)s',
+                classWithEmptyPlaceholder: 'class-with-name-%()s',
                 insideAlternativeRoot: 'inside-alternative-root'
             }, ElementsView.prototype._classes.call(this));
         },
@@ -50,6 +52,7 @@ define([
                 elemFromSelector: '.js-test__selector-elem',
                 simpleSelector: '.simple-selector',
                 complexSelector: '.complex-selector_%s_%s',
+                selectorWithPlaceholder: '.selector-with-name-%(name)s',
                 alternativeRoot: '.alternative-root',
                 child: '.child',
                 cacheTest: '.cache-test',
@@ -143,10 +146,32 @@ define([
             this.it('should work for complex class', function () {
                 expect(this._class('complexClass', 1, 2)).to.be('complex-class_1_2');
             });
+            this.it('should work for complex named class', function () {
+                expect(this._class('classWithPlaceholder', {name: 'apple'})).to.be('class-with-name-apple');
+            });
+            this.it('should work for empty placeholders', function () {
+                expect(this._class('classWithEmptyPlaceholder', {'': 'apple'})).to.be('class-with-name-apple');
+            });
             this.it('should throw an Exception if there is no class', function () {
                 expect(function () {
                     this._class('not-exist');
                 }).to.throwError();
+            });
+            this.it('should not throw error if zero is placeholder', function () {
+                expect(this._class('complexClass', 0, 0)).to.be('complex-class_0_0');
+            });
+            this.it('should throw an error if class name is not a string', function () {
+                expect(function () {
+                    this._class({});
+                }.bind(this)).to.throwError();
+            });
+            this.it('should throw an error there is no enough placeholders to define a class', function () {
+                expect(function () {
+                    this._class('complexClass', 'arg');
+                }.bind(this)).to.throwError();
+                expect(function () {
+                    this._class('complexClass', null, 2);
+                }.bind(this)).to.throwError(/Second argument must be an object or an array/);
             });
         },
 
@@ -160,16 +185,32 @@ define([
             this.it('should work for complex class', function () {
                 expect(this._selector('complexClass', 1, 2)).to.be('.complex-class_1_2');
             });
+            this.it('should work for complex named class', function () {
+                expect(this._selector('classWithPlaceholder', {name: 'apple'})).to.be('.class-with-name-apple');
+            });
             this.it('should work for simple selector', function () {
                 expect(this._selector('simpleSelector')).to.be('.simple-selector');
             });
             this.it('should work for complex selector', function () {
                 expect(this._selector('complexSelector', 1, 2)).to.be('.complex-selector_1_2');
             });
+            this.it('should work for complex named selector', function () {
+                expect(this._selector('selectorWithPlaceholder', {name: 'apple'})).to.be('.selector-with-name-apple');
+            });
             this.it('should throw an Exception if there is no selector', function () {
                 expect(function () {
                     this._selector('not-exist');
                 }).to.throwError();
+            });
+            this.it('should throw an error if selector name is not a string', function () {
+                expect(function () {
+                    this._selector({});
+                }.bind(this)).to.throwError();
+            });
+            this.it('should throw an error there is no enough placeholders to define a selector', function () {
+                expect(function () {
+                    this._selector('complexSelector', 'arg');
+                }.bind(this)).to.throwError();
             });
         },
 

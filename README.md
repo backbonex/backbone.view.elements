@@ -62,7 +62,7 @@ different elements use `_findElem` instead
 #### _class
 - *arguments:*
     - `{String}`  **`name`** Key from `_classes`
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{String}` CSS class
 - *throws* `{Error}` if the name does not match any key in `_classes` or value for the key is empty
 
@@ -204,8 +204,8 @@ this._elem('namedItem', {name: 'note'}); // finds child elements by .item-note s
 
 #### _selector
 - *arguments:*
-    - `{String}`  **`name`** Key from `_selectors`
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{string}`  **`name`** Key from `_selectors`
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{String}` CSS selector
 - *throws* `{Error}` if the name does not match any key in `_selectors` and `_classes`
 
@@ -245,8 +245,8 @@ Returns true if selector with the name is descried in `_classes` or `_selectors`
 
 #### _elem
 - *arguments:*
-    - `{String}`  **`name`** The name of searching element
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{string}`  **`name`** The name of searching element
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{jQuery}`
 
 Returns jQuery or Zepto collection of elements by the name described in
@@ -279,7 +279,7 @@ var Page = ElementsView.extend({
 #### _findElem
 - *arguments:*
     - `{string}`  **`name`**
-    - `{...String}`  **`[placeholders]`**
+    - `{...string|object}`  **`[placeholders]`**
 - *returns* `{jQuery}`
 
 Finds element without using cache
