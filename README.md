@@ -6,6 +6,32 @@ Backbone.View extension for convenient work with elements, css classes and selec
 [![Build Status](https://travis-ci.org/backbonex/backbone.view.elements.svg)](https://travis-ci.org/backbonex/backbone.view.elements)
 [![Coverage Status](https://img.shields.io/coveralls/backbonex/backbone.view.elements.svg)](https://coveralls.io/r/backbonex/backbone.view.elements?branch=master)
 
+Table of Contents
+-----------------
+
+- [Protected API](#protected-api)
+    - [Properties](#properties)
+      - [_$window](#_$window)
+      - [_$document](#_$document)
+      - [_$body](#_$body)
+      - [_data](#_data)
+    - [Methods](#methods)
+      - [_classes](#_classes)
+      - [_class](#_class)
+      - [_hasClass](#_hasclass)
+      - [_addClass](#_addclass)
+      - [_removeClass](#_removeclass)
+      - [_toggleClass](#_toggleclass)
+      - [_selectors](#_selectors)
+      - [_selector](#_selector)
+      - [_hasDescribedSelector](#_hasdescribedselector)
+      - [_elem](#_elem)
+      - [_findElem](#_findelem)
+      - [_dropElemCache](#_dropelemcache)
+      - [_getElemData](#_getelemdata)
+
+TOC generated with [DocToc](https://github.com/thlorenz/doctoc)
+
 Protected API
 -------------
 You can use following properties and methods inside your child classes
@@ -25,7 +51,7 @@ Cached `document` object wrapped to [jQuery](http://jquery.com/)/[Zepto](http://
 
 Cached `document.body` object wrapped to [jQuery](http://jquery.com/)/[Zepto](http://zeptojs.com/)
 
-### _data
+#### _data
 - *type* `{Object}`
 
 Data attributes of `this.$el`
