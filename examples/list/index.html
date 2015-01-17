@@ -7,10 +7,15 @@
 <body>
     <h1>The list</h1>
 
-    <ul class="list">
-        <li class="list__item">Item 1 <button class="list__remove-item-button">Remove item</button></li>
-        <li class="list__item">Item 2 <button class="list__remove-item-button">Remove item</button></li>
-    </ul>
+    <div class="list">
+        <ul>
+            <li class="list__item" data-item-number="0">Item 1</li>
+            <li class="list__item" data-item-number="1">Item 2</li>
+        </ul>
+
+        <button class="list__remove-item-button" data-item-number="0">Remove item 1</button>
+        <button class="list__remove-item-button" data-item-number="1">Remove item 2</button>
+    </div>
 
     <script src="../../bower_components/requirejs/require.js" data-main="init.js"></script>
 </body>
