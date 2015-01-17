@@ -6,6 +6,32 @@ Backbone.View extension for convenient work with elements, css classes and selec
 [![Build Status](https://travis-ci.org/backbonex/backbone.view.elements.svg)](https://travis-ci.org/backbonex/backbone.view.elements)
 [![Coverage Status](https://img.shields.io/coveralls/backbonex/backbone.view.elements.svg)](https://coveralls.io/r/backbonex/backbone.view.elements?branch=master)
 
+Table of Contents
+-----------------
+
+- [Protected API](#protected-api)
+    - [Properties](#properties)
+      - [_$window](#_$window)
+      - [_$document](#_$document)
+      - [_$body](#_$body)
+      - [_data](#_data)
+    - [Methods](#methods)
+      - [_classes](#_classes)
+      - [_class](#_class)
+      - [_hasClass](#_hasclass)
+      - [_addClass](#_addclass)
+      - [_removeClass](#_removeclass)
+      - [_toggleClass](#_toggleclass)
+      - [_selectors](#_selectors)
+      - [_selector](#_selector)
+      - [_hasDescribedSelector](#_hasdescribedselector)
+      - [_elem](#_elem)
+      - [_findElem](#_findelem)
+      - [_dropElemCache](#_dropelemcache)
+      - [_getElemData](#_getelemdata)
+
+TOC generated with [DocToc](https://github.com/thlorenz/doctoc)
+
 Protected API
 -------------
 You can use following properties and methods inside your child classes
@@ -25,7 +51,7 @@ Cached `document` object wrapped to [jQuery](http://jquery.com/)/[Zepto](http://
 
 Cached `document.body` object wrapped to [jQuery](http://jquery.com/)/[Zepto](http://zeptojs.com/)
 
-### _data
+#### _data
 - *type* `{Object}`
 
 Data attributes of `this.$el`
@@ -62,7 +88,7 @@ different elements use `_findElem` instead
 #### _class
 - *arguments:*
     - `{String}`  **`name`** Key from `_classes`
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{String}` CSS class
 - *throws* `{Error}` if the name does not match any key in `_classes` or value for the key is empty
 
@@ -204,8 +230,8 @@ this._elem('namedItem', {name: 'note'}); // finds child elements by .item-note s
 
 #### _selector
 - *arguments:*
-    - `{String}`  **`name`** Key from `_selectors`
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{string}`  **`name`** Key from `_selectors`
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{String}` CSS selector
 - *throws* `{Error}` if the name does not match any key in `_selectors` and `_classes`
 
@@ -245,8 +271,8 @@ Returns true if selector with the name is descried in `_classes` or `_selectors`
 
 #### _elem
 - *arguments:*
-    - `{String}`  **`name`** The name of searching element
-    - `{...String}`  **`[placeholders]`** values for placeholders, see examples
+    - `{string}`  **`name`** The name of searching element
+    - `{...string|object}`  **`[placeholders]`** values for placeholders, see examples
 - *returns* `{jQuery}`
 
 Returns jQuery or Zepto collection of elements by the name described in
@@ -279,7 +305,7 @@ var Page = ElementsView.extend({
 #### _findElem
 - *arguments:*
     - `{string}`  **`name`**
-    - `{...String}`  **`[placeholders]`**
+    - `{...string|object}`  **`[placeholders]`**
 - *returns* `{jQuery}`
 
 Finds element without using cache
