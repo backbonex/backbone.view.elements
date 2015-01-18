@@ -9,6 +9,10 @@ Backbone.View extension for convenient work with elements, css classes and selec
 Table of Contents
 -----------------
 
+- [Installation](#installation)
+- [Inclusion](#inclusion)
+    - [Using globals](#using-globals)
+    - [Using RequireJS](#using-amd-loader-for-example-requirejs)
 - [Protected API](#protected-api)
     - [Properties](#properties)
       - [_$window](#_$window)
