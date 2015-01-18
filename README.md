@@ -32,6 +32,56 @@ Table of Contents
 
 TOC generated with [DocToc](https://github.com/thlorenz/doctoc)
 
+Installation
+------------
+To install latest version just type:
+```bash
+bower install backbone.view.elements --save
+```
+If you does not have bower:
+```bash
+npm install -g bower
+```
+
+Inclusion
+---------
+You have two ways to include the script
+### Using globals
+- Add script tag with Backbone.View.Elements right after Backbone like this:
+```html
+<script src="path/to/backbone.js"></script>
+<script src="path/to/Backbone.View.Elements.js"></script>
+```
+- Inherit your view from `Backbone.View.Elements`
+```js
+var MyView = Backbone.View.Elements.extend({
+    // yout view prototype here
+});
+```
+### Using AMD loader, for example [RequireJS](requirejs.org)
+- Add info about jQuery and Backbone locations to the [shim](http://requirejs.org/docs/api.html#config-shim)
+```js
+requirejs.config({
+    paths: {
+        Backbone: 'path/to/backbone',
+        jquery: 'path/to/jquery'
+    },
+    shim: {
+        jquery: {
+            exports: 'jQuery'
+        }
+    }
+});
+```
+- Describe your view depending on Backbone.View.Elements and extend it:
+```js
+require(['path/to/Backbone.View.Elements'], function (ElementsView) {
+    var MyView = ElementsView.extend({
+        // yout view prototype here
+    });
+});
+```
+
 Protected API
 -------------
 You can use following properties and methods inside your child classes
