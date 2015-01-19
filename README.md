@@ -67,7 +67,7 @@ var MyView = Backbone.View.Elements.extend({
 ```js
 requirejs.config({
     paths: {
-        Backbone: 'path/to/backbone',
+        backbone: 'path/to/backbone',
         jquery: 'path/to/jquery'
     },
     shim: {

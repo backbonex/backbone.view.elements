@@ -1,6 +1,6 @@
 {
   "name": "backbone.view.elements",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backbone.View extension for convenient work with elements, css classes and selectors",
   "main": "lib/Backbone.View.Elements.js",
   "directories": {
