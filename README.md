@@ -6,6 +6,58 @@ Backbone.View extension for convenient work with elements, css classes and selec
 [![Build Status](https://travis-ci.org/backbonex/backbone.view.elements.svg)](https://travis-ci.org/backbonex/backbone.view.elements)
 [![Coverage Status](https://img.shields.io/coveralls/backbonex/backbone.view.elements.svg)](https://coveralls.io/r/backbonex/backbone.view.elements?branch=master)
 
+How to avoid CSS selectors duplication and cache elements
+---------------------------------------------------------
+It's very common situation when we need to use the same selector in different parts of our view. Considering selectors
+can be complex it's not a good practice to mention them more than once. Using Backbone.View.Elements you can adjust 
+selectors in one place like this:
+```js
+_selectors: function () {
+	return {
+		elemName: '.block__elem-name'
+	};
+}
+```
+then in the code you can get the selector using the `_selector` method
+```js
+this._selector('elemName'); // returns '.block__elem-name'
+```
+but the more often situation is when we need to retrive an element by the selector
+```js
+this._elem('elemName'); // returns jQuery collection found by '.block__elem-name'
+```
+Further more the `_elem` method caches the results so you need not to save elements to roperties of views. Another 
+advantage is when an HTML template is changed you should change JS in only one place.
+
+How to avoid CSS classes duplication and manipulate them easily
+---------------------------------------------------------------
+The same situation with CSS selectors - we don't want to duplicate them. Classes are placed inside `_classes` method:
+```js
+_classes: function () {
+	return {
+		className: '.block__elem_some_class'
+	};
+}
+```
+then in the code you can get the class using the `_class` method
+```js
+this._class('className'); // returns 'block__elem_some_class'
+```
+or selector for the class
+```js
+this._selector('className'); // returns '.block__elem_some_class'
+```
+or elements collection
+```js
+this._elem('className'); // returns jQuery collection found by '.block__elem_some_class'
+```
+But more often we need to do some manipulations with classes like adding a class to an element. The `_addClass` method
+exists for this reason
+```js
+this._addClass('className', 'elemName'); // add the 'block__elem_some_class' to elements found by '.block__elem-name'
+```
+See also `_removeClass`, `_hasClass`, `_toggleClass` and some others bellow.
+
 Table of Contents
 -----------------
 
