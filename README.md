@@ -26,7 +26,7 @@ but the more often situation is when we need to retrive an element by the select
 ```js
 this._elem('elemName'); // returns jQuery collection found by '.block__elem-name'
 ```
-Further more the `_elem` method caches the results so you need not to save elements to roperties of views. Another 
+Further more the `_elem` method caches the results so you need not to save elements to properties of views. Another 
 advantage is when an HTML template is changed you should change JS in only one place.
 
 How to avoid CSS classes duplication and manipulate them easily
