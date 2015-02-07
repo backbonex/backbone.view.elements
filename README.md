@@ -57,6 +57,7 @@ exists for this reason
 this._addClass('className', 'elemName'); // add the 'block__elem_some_class' to elements found by '.block__elem-name'
 ```
 See also `_removeClass`, `_hasClass`, `_toggleClass` and some others bellow.
+### [You also can read a tutorial in my blog >>>](http://jifeon.blogspot.ru/2015/02/how-to-refactor-spaghetti.html)
 
 Table of Contents
 -----------------
