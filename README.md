@@ -110,7 +110,7 @@ You have two ways to include the script
 ```
 - Inherit your view from `Backbone.View.Elements`
 ```js
-var MyView = Backbone.View.Elements.extend({
+var MyView = Backbone.ElementsView.extend({
     // yout view prototype here
 });
 ```
