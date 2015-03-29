@@ -22,12 +22,12 @@ then in the code you can get the selector using the `_selector` method
 ```js
 this._selector('elemName'); // returns '.block__elem-name'
 ```
-but the more often situation is when we need to retrive an element by the selector
+but the more often situation is when you need to retrive an element by the selector
 ```js
 this._elem('elemName'); // returns jQuery collection found by '.block__elem-name'
 ```
-Further more the `_elem` method caches the results so you need not to save elements to properties of views. Another 
-advantage is when an HTML template is changed you should change JS in only one place.
+Furthermore the `_elem` method caches the results so you need not to save elements to properties of views. Another 
+advantage is when an HTML template is changed you have to change JS in only one place.
 
 How to avoid CSS classes duplication and manipulate them easily
 ---------------------------------------------------------------
@@ -95,7 +95,7 @@ To install latest version just type:
 ```bash
 bower install backbone.view.elements --save
 ```
-If you does not have bower:
+If you do not have bower:
 ```bash
 npm install -g bower
 ```
