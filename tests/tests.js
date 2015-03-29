@@ -4,6 +4,7 @@ requirejs.config({
         underscore: '../bower_components/underscore/underscore',
         jquery: '../bower_components/jquery/dist/jquery',
         mocha: '../bower_components/mocha/mocha',
+        mochaOOPWrapper: '../bower_components/mochaOOPWrapper/lib/mochaOOPWrapper',
         lib: window.mochaPhantomJS ? '../lib-cov' : '../lib',
         expect: '../bower_components/expect/index'
     },
@@ -12,11 +13,7 @@ requirejs.config({
             exports: 'jQuery'
         },
         mocha: {
-            exports: 'mocha',
-            init: function () {
-                this.mocha.setup('bdd');
-                return this.mocha;
-            }
+            exports: 'mocha'
         },
         expect: {
             exports: 'expect'

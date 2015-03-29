@@ -1,27 +1,25 @@
-/*global describe, it, before, after, beforeEach, afterEach*/
-
 define([
     'underscore',
-    'mocha',
     'expect',
-    'lib/Backbone.View.Elements'
-], function (_, mocha, expect, ElementsView) {
-    "use strict";
+    'lib/Backbone.View.Elements',
+    'mochaOOPWrapper'
+], function (_, expect, ElementsView, mochaOOPWrapper) {
+    'use strict';
 
-    function bind (originFn) {
-        return function (callback) {
-            return originFn(callback.bind(this));
-        }
-    }
+    /**
+     * @class MochaOOPWrapper
+     * @extends ElementsView
+     */
+    var MochaOOPWrapper = ElementsView.extend(mochaOOPWrapper);
 
     /**
      * @class ElementsViewTests
-     * @extends ElementsView
+     * @extends MochaOOPWrapper
      */
-    return ElementsView.extend(/**@lends ElementsViewTests*/{
+    return MochaOOPWrapper.extend(/**@lends ElementsViewTests#*/{
         /**
          * @type {string}
-         * @private
+         * @protected
          */
         _name: 'ElementsView',
 
@@ -71,48 +69,6 @@ define([
         /**
          * @protected
          */
-        _initTests: function () {
-            this.describe(this._name, function () {
-                this._describe();
-            });
-
-            mocha.checkLeaks();
-
-            if (window.mochaPhantomJS) {
-                mochaPhantomJS.run();
-            } else {
-                mocha.run();
-            }
-        },
-
-        /**
-         * @param {string} description
-         * @param {function} [callback]
-         * @returns {*}
-         */
-        describe: function (description, callback) {
-            return describe(description, callback ? callback.bind(this) : function () {
-                it('Pending suite');
-            });
-        },
-
-        /**
-         * @param {string} description
-         * @param {function} [callback]
-         * @returns {*}
-         */
-        it: function (description, callback) {
-            return it(description, callback && callback.bind(this));
-        },
-
-        before: bind(before),
-        beforeEach: bind(beforeEach),
-        after: bind(after),
-        afterEach: bind(afterEach),
-
-        /**
-         * @protected
-         */
         _describe: function () {
             this.describe('data property', this._checkDataProperty);
             this.describe('class method', this._checkClassMethod);
@@ -127,6 +83,9 @@ define([
             this.describe('getElemData method', this._checkGetElemDataMethod);
         },
 
+        /**
+         * @private
+         */
         _checkDataProperty: function () {
             this.it('should contain data attributes of element', function () {
                 expect(this._data).to.be.an('object');
@@ -162,6 +121,7 @@ define([
             });
             this.it('should throw an error if class name is not a string', function () {
                 expect(function () {
+                    // noinspection JSCheckFunctionSignatures
                     this._class({});
                 }.bind(this)).to.throwError();
             });
@@ -204,6 +164,7 @@ define([
             });
             this.it('should throw an error if selector name is not a string', function () {
                 expect(function () {
+                    // noinspection JSCheckFunctionSignatures
                     this._selector({});
                 }.bind(this)).to.throwError();
             });
@@ -366,6 +327,9 @@ define([
             });
         },
 
+        /**
+         * @private
+         */
         _checkSetElementMethod: function () {
             this.it('should reset caches', function () {
                 this.setElement(this._elem('alternativeRoot'));
@@ -378,6 +342,9 @@ define([
             });
         },
 
+        /**
+         * @private
+         */
         _checkFindElemMethod: function () {
             this.it('should find elements without using cache', function () {
                 var $cached = this._elem('cacheTest');
@@ -390,6 +357,9 @@ define([
             });
         },
 
+        /**
+         * @private
+         */
         _checkDropElemCacheMethod: function () {
             this.it('should drop element cache', function () {
                 var $cached = this._elem('cacheTest');
@@ -412,6 +382,9 @@ define([
             });
         },
 
+        /**
+         * @private
+         */
         _checkGetElemDataMethod: function () {
             this.it('should return data attributes of the element', function () {
                 expect(this._getElemData('alternativeRoot')).to.eql({value: 2});
