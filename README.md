@@ -109,7 +109,7 @@ You have two ways to include the script
 <script src="path/to/backbone.js"></script>
 <script src="path/to/Backbone.View.Elements.js"></script>
 ```
-- Inherit your view from `Backbone.View.Elements`
+- Inherit your view from `Backbone.ElementsView`
 ```js
 var MyView = Backbone.ElementsView.extend({
     // yout view prototype here
@@ -134,7 +134,7 @@ requirejs.config({
 ```js
 require(['path/to/Backbone.View.Elements'], function (ElementsView) {
     var MyView = ElementsView.extend({
-        // yout view prototype here
+        // your view prototype here
     });
 });
 ```
