@@ -1,6 +1,6 @@
 {
   "name": "backbone.view.elements",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/backbonex/backbone.view.elements",
   "authors": [
     "jifeon <balakirev.andrey@gmail.com>",
@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "backbone": "~1.0.0",
-    "jquery": "~2.1.1"
+    "jquery": ">1.7.0"
   },
   "devDependencies": {
     "zeptojs": "~1.1.4",
