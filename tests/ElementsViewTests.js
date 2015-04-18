@@ -147,6 +147,7 @@ define([
             });
             this.it('should work for complex named class', function () {
                 expect(this._selector('classWithPlaceholder', {name: 'apple'})).to.be('.class-with-name-apple');
+                expect(this._selector('classWithPlaceholder', {name: 'orange'})).to.be('.class-with-name-orange');
             });
             this.it('should work for simple selector', function () {
                 expect(this._selector('simpleSelector')).to.be('.simple-selector');
@@ -156,6 +157,7 @@ define([
             });
             this.it('should work for complex named selector', function () {
                 expect(this._selector('selectorWithPlaceholder', {name: 'apple'})).to.be('.selector-with-name-apple');
+                expect(this._selector('selectorWithPlaceholder', {name: 'orange'})).to.be('.selector-with-name-orange');
             });
             this.it('should throw an Exception if there is no selector', function () {
                 expect(function () {
