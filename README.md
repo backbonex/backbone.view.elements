@@ -120,6 +120,7 @@ var MyView = Backbone.ElementsView.extend({
 ```js
 requirejs.config({
     paths: {
+        underscore: 'path/to/underscore',
         backbone: 'path/to/backbone',
         jquery: 'path/to/jquery'
     },
@@ -129,6 +130,21 @@ requirejs.config({
         }
     }
 });
+```
+- If you are using old versions of backbone and underscore, you must declare `exports` and `deps` for them:
+```js
+    shim: {
+        jquery: {
+            exports: 'jQuery'
+        },
+        underscore: {
+            exports: '_'
+        },
+        backbone: {
+            deps: ['jquery', 'underscore'],
+            exports: 'Backbone'
+        }
+    }
 ```
 - Describe your view depending on Backbone.View.Elements and extend it:
 ```js

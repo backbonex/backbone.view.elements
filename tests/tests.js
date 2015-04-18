@@ -9,6 +9,13 @@ requirejs.config({
         expect: '../bower_components/expect/index'
     },
     shim: {
+        backbone: {
+            exports: 'Backbone',
+            deps: ['jquery', 'underscore']
+        },
+        underscore: {
+            exports: '_'
+        },
         jquery: {
             exports: 'jQuery'
         },
